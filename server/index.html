@@ -10,7 +10,9 @@
 
 
 <body>
+	<div id = "svg_wrapper">
 	<svg id="my_datavis" height=500 width=500></svg>
+	</div>
 
 	<div id="checkbox_wrapper"></div>
 </body>
@@ -55,22 +57,29 @@ var generateVis = function() {
 
 var generateCheckboxes = function() {
 
-	checkboxes = d3.select("#checkbox_wrapper")
+	var checkbox_divs = d3.select("#checkbox_wrapper")
 	.selectAll("input")
 	.data(country_data)
 	.enter()
-	.append("input")
+	.append("div")
+	.attr("class","country_checkbox_wrapper");
+
+	checkbox_divs.append("button")
 	.attr("type","checkbox")
-	.attr("id", d => "checkbox_" + d.code);
-
-	checkboxes.append("label")
+	.attr("id", d => "checkbox_" + d.code)
 	.text(d => d.code)
-	.attr("for", d => "checkbox_" + d.code)
+	.on("click", d => showCountry(d.code))
 
-
+	// checkbox_divs.append("label")
+	// .text(d => d.code)
+	// .attr("for", d => "checkbox_" + d.code)
 }
 
-
+var showCountry = function(code) {
+	svg.selectAll("circle")
+	.transition()
+	.attr("r", (d,n) => Math.sqrt(cluster_data[n].countries[code]));
+}
 
 
 

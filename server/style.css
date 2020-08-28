@@ -4,18 +4,29 @@ div {
 
 svg {
 	background-color: #EEEEEE;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
 	display: block;
+	float: left;
 }
 
 circle {
 	fill: red;
 }
 
-input {
-	/*display: block;*/
+button {
+	display: inline-block;
+}
+
+#svg_wrapper {
+	width:1000px;
 }
 
 #checkbox_wrapper {
-	width : 100px;
+	display:inline-block;
+	width : 40%;
+}
+
+.country_checkbox_wrapper {
+	display: inline-block;
+	width : 5pc;
 }
