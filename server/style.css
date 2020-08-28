@@ -1,0 +1,21 @@
+div {
+	/*background-color: None;*/
+}
+
+svg {
+	background-color: #EEEEEE;
+	margin: 0 auto;
+	display: block;
+}
+
+circle {
+	fill: red;
+}
+
+input {
+	/*display: block;*/
+}
+
+#checkbox_wrapper {
+	width : 100px;
+}

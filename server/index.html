@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<head>
+	<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+	<!-- Load d3.js -->
+	<script src="https://d3js.org/d3.v4.js"></script>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="style.css">
+	<title>D3 Page Template</title>
+</head>
+
+
+<body>
+	<svg id="my_datavis" height=500 width=500></svg>
+
+	<div id="checkbox_wrapper"></div>
+</body>
+
+
+<script>
+var svg = d3.select("#my_datavis");
+var cluster_data;
+var country_data;
+
+d3.json("cluster_data.json", function(data) {
+	cluster_data = data
+	console.log(data)
+	generateVis()
+});
+
+d3.json("country_data.json", function(data) {
+	country_data = data
+	console.log(data)
+	generateCheckboxes()
+});
+
+// X scale and Axis
+var x = d3.scaleLinear()
+    .domain([-3, 3])
+    .range([0, 500]);
+
+// X scale and Axis
+var y = d3.scaleLinear()
+    .domain([-3, 3])
+    .range([500, 0]); 
+
+var generateVis = function() {
+	svg.selectAll("circle")
+	.data(cluster_data)
+	.enter()
+	.append("circle")
+	.attr("cx", d => x(d.x))
+	.attr("cy", d => y(d.y))
+	.attr("r", 10)
+}
+
+var generateCheckboxes = function() {
+
+	checkboxes = d3.select("#checkbox_wrapper")
+	.selectAll("input")
+	.data(country_data)
+	.enter()
+	.append("input")
+	.attr("type","checkbox")
+	.attr("id", d => "checkbox_" + d.code);
+
+	checkboxes.append("label")
+	.text(d => d.code)
+	.attr("for", d => "checkbox_" + d.code)
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+</script>
