@@ -64,15 +64,14 @@ var generateCheckboxes = function() {
 	.append("div")
 	.attr("class","country_checkbox_wrapper");
 
-	checkbox_divs.append("button")
+	checkbox_divs.append("input")
 	.attr("type","checkbox")
 	.attr("id", d => "checkbox_" + d.code)
-	.text(d => d.code)
 	.on("click", d => showCountry(d.code))
 
-	// checkbox_divs.append("label")
-	// .text(d => d.code)
-	// .attr("for", d => "checkbox_" + d.code)
+	checkbox_divs.append("label")
+	.text(d => d.code)
+	.attr("for", d => "checkbox_" + d.code)
 }
 
 var showCountry = function(code) {
