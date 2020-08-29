@@ -19,6 +19,20 @@ circle {
 	/*fill: red;*/
 }
 
+#tooltip_wrapper {
+	position: absolute;
+	left: 800px;
+	height: auto;
+	color: white;
+	/*background-color: red;*/
+	width: 300px;
+	font-size : 12pt;
+	font-weight: 500;
+}
+
+#tooltip_wrapper.hidden {
+	visibility: hidden;
+}
 
 #svg_wrapper {
 	display: inline-block;

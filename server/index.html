@@ -17,6 +17,7 @@
 	</div>
 
 	<div id="checkbox_wrapper"></div>
+	<div id="tooltip_wrapper"><p></p></div>
 </body>
 
 
@@ -55,7 +56,11 @@ var x = d3.scaleLinear()
 // X scale and Axis
 var y = d3.scaleLinear()
     .domain([-3, 3])
-    .range([800, 0]); 
+    .range([800, 0]);
+
+var colorScale = d3.scaleLinear()
+	.domain([-1.5,1.5])
+	.range(["red","green"])
 
 var generateVis = function() {
 
@@ -69,6 +74,24 @@ var generateVis = function() {
 		.attr("cx", d => x(d.x))
 		.attr("cy", d => y(d.y))
 		.attr("r", 0)
+
+		//Add tooltip info
+		.on("mouseover", function(d, j) { //d is for this cluster
+			var data = d3.select("#tooltip_wrapper")
+			.selectAll("p")
+			.data(cluster_data[j].answers.sort((x,y) => d3.descending(Math.abs(x.answer), Math.abs(y.answer))));
+
+			data
+			.enter()
+			.append("p")
+			.text(e => e.question + " " + parseFloat(e.answer).toFixed(3))
+			.style("background-color", e => colorScale(e.answer));
+
+			data
+			.text(e => e.question + " " + parseFloat(e.answer).toFixed(3))
+			.style("background-color", e => colorScale(e.answer));
+
+		})
 	})
 
 	
@@ -76,13 +99,13 @@ var generateVis = function() {
 
 var generateCheckboxes = function() {
 
-	//Set up divs and mouseover
+	//Set up divs and mouseover transparency
 	var checkbox_divs = d3.select("#checkbox_wrapper")
 	.selectAll("input")
 	.data(country_data)
 	.enter()
 	.append("div")
-	.attr("class","country_checkbox_wrapper")
+	.attr("class",d => "country_checkbox_wrapper " + d.code)
 	.on("mouseover", function(d) {
 		if (d3.select("input." + d.code).property("checked")) {
 			d3.selectAll("circle")
@@ -118,10 +141,18 @@ var generateCheckboxes = function() {
 }
 
 var showCountry = function(code) {
+	var color = getNextColor();
+
 	svg.selectAll("circle." + code)
-	.attr("fill",getNextColor())
+	.attr("fill",color)
 	.transition()
 	.attr("r", (d,n) => Math.sqrt(cluster_data[n].countries[code]));
+
+	//And change the country's button to that color
+	d3.select(".country_checkbox_wrapper." + code)
+	.transition()
+	.style("background-color",color)
+	.style("color","white")
 }
 
 var hideCountry = function(code) {
@@ -132,6 +163,12 @@ var hideCountry = function(code) {
 	//And release the colour it was using
 	var fill = svg.select("circle." + code).attr("fill");
 	releaseColor(fill);
+
+	//And change the button
+	d3.select(".country_checkbox_wrapper." + code)
+	.transition()
+	.style("background-color",null)
+	.style("color",null)
 }
 
 
