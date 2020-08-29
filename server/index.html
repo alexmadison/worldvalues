@@ -85,11 +85,11 @@ var generateVis = function() {
 			data
 			.enter()
 			.append("p")
-			.text(e => e.question + " " + parseFloat(e.answer).toFixed(3))
+			.text(e => e.question + " " + parseFloat(e.answer).toFixed(1))
 			.style("background-color", e => colorScale(e.answer));
 
 			data
-			.text(e => e.question + " " + parseFloat(e.answer).toFixed(3))
+			.text(e => e.question + " " + parseFloat(e.answer).toFixed(1))
 			.style("background-color", e => colorScale(e.answer));
 
 		})
