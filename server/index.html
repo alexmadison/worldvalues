@@ -17,6 +17,7 @@
 	</div>
 
 	<div id="checkbox_wrapper"></div>
+	<button onclick = "hideAllCountries()">Clear all</button>
 	<div id="tooltip_wrapper"><p></p></div>
 </body>
 
@@ -92,7 +93,7 @@ var generateVis = function() {
 			.style("background-color", e => colorScale(e.answer));
 
 		})
-		
+
 	})
 
 	
@@ -110,7 +111,7 @@ var generateCheckboxes = function() {
 	.on("mouseover", function(d) {
 		if (d3.select("input." + d.code).property("checked")) {
 			d3.selectAll("circle")
-			.attr("opacity", 0.2);
+			.attr("opacity", 0.2)
 			d3.selectAll("circle." + d.code)
 			.attr("opacity", 1.0)
 		}
@@ -172,6 +173,13 @@ var hideCountry = function(code) {
 	.style("color",null)
 }
 
+var hideAllCountries = function() {
+	for (var i = 0; i < country_data.length; i++) {
+		hideCountry(country_data[i].code);
+	}
+	d3.selectAll("#checkbox_wrapper input")
+	.property("checked",false)
+}
 
 var show_init = function() {
 	init_countries.forEach(function(code, i) {

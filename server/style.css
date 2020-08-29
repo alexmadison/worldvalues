@@ -15,6 +15,15 @@ svg {
 	display: block;
 }
 
+circle{
+	/*opacity: 0.8;*/
+	/*transition:0.2s;*/
+}
+
+circle:hover{
+	opacity: 1;
+}
+
 
 
 #tooltip_wrapper {
