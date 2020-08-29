@@ -2,31 +2,36 @@ div {
 	/*background-color: None;*/
 }
 
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 14pt;
+	font-weight : 900;
+	color: #222222;
+}
+
 svg {
-	background-color: #EEEEEE;
+	/*background-color: #F9F9F9;*/
 	/*margin: 0 auto;*/
 	display: block;
-	float: left;
 }
 
 circle {
-	fill: red;
+	/*fill: red;*/
 }
 
-button {
-	display: inline-block;
-}
 
 #svg_wrapper {
-	width:1000px;
+	display: inline-block;
+	float:left;
 }
 
 #checkbox_wrapper {
 	display:inline-block;
-	width : 40%;
+	width : 30%;
 }
 
 .country_checkbox_wrapper {
 	display: inline-block;
 	width : 5pc;
+	padding: 5px 5px;
 }

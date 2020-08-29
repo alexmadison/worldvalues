@@ -6,12 +6,14 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="style.css">
 	<title>D3 Page Template</title>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;900&display=swap" rel="stylesheet">
 </head>
 
 
 <body>
+	<h1>Making a sexy view of political groups</h1>
 	<div id = "svg_wrapper">
-	<svg id="my_datavis" height=500 width=500></svg>
+	<svg id="my_datavis" height=800 width=800></svg>
 	</div>
 
 	<div id="checkbox_wrapper"></div>
@@ -22,69 +24,161 @@
 var svg = d3.select("#my_datavis");
 var cluster_data;
 var country_data;
+var init_countries = ["GBR", "PAK", "USA", "RUS", "CHN"];
+var colors;
 
 d3.json("cluster_data.json", function(data) {
 	cluster_data = data
 	console.log(data)
-	generateVis()
+	//lol
+	d3.json("country_data.json", function(data) {
+		country_data = data
+		console.log(data)
+		d3.json("colors.json", function(data) {
+			colors = data
+			colors.forEach( function(d, i) { colors[i].taken = false})
+
+			generateVis()
+			generateCheckboxes()
+			show_init()
+		});
+	});
 });
 
-d3.json("country_data.json", function(data) {
-	country_data = data
-	console.log(data)
-	generateCheckboxes()
-});
+
 
 // X scale and Axis
 var x = d3.scaleLinear()
     .domain([-3, 3])
-    .range([0, 500]);
+    .range([0, 800]);
 
 // X scale and Axis
 var y = d3.scaleLinear()
     .domain([-3, 3])
-    .range([500, 0]); 
+    .range([800, 0]); 
 
 var generateVis = function() {
-	svg.selectAll("circle")
-	.data(cluster_data)
-	.enter()
-	.append("circle")
-	.attr("cx", d => x(d.x))
-	.attr("cy", d => y(d.y))
-	.attr("r", 10)
+
+	//Generate circles for every country
+	country_data.forEach(function(c, i) {
+		svg.selectAll("circle." + c.code)
+		.data(cluster_data)
+		.enter()
+		.append("circle")
+		.attr("class", c.code)
+		.attr("cx", d => x(d.x))
+		.attr("cy", d => y(d.y))
+		.attr("r", 0)
+	})
+
+	
 }
 
 var generateCheckboxes = function() {
 
+	//Set up divs and mouseover
 	var checkbox_divs = d3.select("#checkbox_wrapper")
 	.selectAll("input")
 	.data(country_data)
 	.enter()
 	.append("div")
-	.attr("class","country_checkbox_wrapper");
+	.attr("class","country_checkbox_wrapper")
+	.on("mouseover", function(d) {
+		if (d3.select("input." + d.code).property("checked")) {
+			d3.selectAll("circle")
+			.attr("opacity", 0.2);
+			d3.selectAll("circle." + d.code)
+			.attr("opacity", 1.0)
+		}
+	})
+	.on("mouseout", function(d) {
+		d3.selectAll("circle")
+		.attr("opacity",1.0)
+	})
+	;
 
+	//Set up buttons with listeners
 	checkbox_divs.append("input")
 	.attr("type","checkbox")
 	.attr("id", d => "checkbox_" + d.code)
-	.on("click", d => showCountry(d.code))
+	.attr("class", d => d.code)
+	.property("code", d => d.code)
+	.on("change", function(d) {
+		if (d3.select(this).property("checked")) {
+			showCountry(d.code)
+		} else {
+			hideCountry(d.code)
+		}
+	})
 
+	//Add button labels
 	checkbox_divs.append("label")
 	.text(d => d.code)
 	.attr("for", d => "checkbox_" + d.code)
 }
 
 var showCountry = function(code) {
-	svg.selectAll("circle")
+	svg.selectAll("circle." + code)
+	.attr("fill",getNextColor())
 	.transition()
 	.attr("r", (d,n) => Math.sqrt(cluster_data[n].countries[code]));
 }
 
+var hideCountry = function(code) {
+	svg.selectAll("circle." + code)
+	.transition()
+	.attr("r", 0);
+
+	//And release the colour it was using
+	var fill = svg.select("circle." + code).attr("fill");
+	releaseColor(fill);
+}
 
 
+var show_init = function() {
+	init_countries.forEach(function(code, i) {
+		d3.select("#checkbox_" + code)
+		.property("checked", true);
+		showCountry(code)
+	})
+}
+
+var getNextColor = function() {
+	var color_to_give;
+	var best_rank = 9999;
+	var taken_id = null;
+	colors.forEach(function(d,i) {
+		if ((d.taken == false) && d.rank < best_rank) {
+			color_to_give = d.color;
+			best_rank = d.rank;
+			taken_id = i;
+		}
+	})
+	if (best_rank == 9999) {
+		color_to_give = getRandomColor();
+	} else {
+		colors[taken_id].taken = true; 
+	}
+	return color_to_give;
+}
+
+var releaseColor = function(color) {
+	for (var i = 0; i < colors.length; i++) {
+		if (colors[i].color == color) {
+			colors[i].taken = false;
+		}
+	}
+}
 
 
-
+var getRandomColor = function() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 
 
