@@ -70,15 +70,11 @@ var colorScale = d3.scaleLinear()
 var updateVis = function() {
 
 	svg.selectAll("g").each(function(c, c_i) { //c is this cluster's data, "this" is the group
-		// console.log(c)
-		// console.log(this)
 
 		var pie = d3.pie()
-		.value(d => c.countries[d.code])
+		.value(d => c.countries[d.code]) //Think this converts to degrees
 
 		var data_ready = pie(visible_countries)
-
-		// console.log(data_ready)
 
 		var u = d3.select("#" + this.id)
 		.selectAll("path")
@@ -125,7 +121,7 @@ var generateVis = function() {
 	.attr("id", d=>"cluster_" + d.id)
 	.attr("transform", d => "translate(" + x(d.x) + "," + y(d.y) + ")")
 
-	
+
 	.on("mouseover", function(d, j) { //d is for this cluster
 			var data = d3.select("#tooltip_wrapper")
 			.selectAll("p")
@@ -144,41 +140,6 @@ var generateVis = function() {
 			.style("background-color", e => colorScale(e.answer));
 
 		})
-
-
-	//Generate circles for every country
-	// country_data.forEach(function(c, i) {
-	// 	svg.selectAll("circle." + c.code)
-	// 	.data(cluster_data)
-	// 	.enter()
-	// 	.append("circle")
-	// 	.attr("class", c.code)
-	// 	.attr("cx", d => x(d.x))
-	// 	.attr("cy", d => y(d.y))
-	// 	.attr("r", 0)
-
-	// 	//Add tooltip info
-	// 	.on("mouseover", function(d, j) { //d is for this cluster
-	// 		var data = d3.select("#tooltip_wrapper")
-	// 		.selectAll("p")
-	// 		.data(cluster_data[j].answers.sort((x,y) => d3.descending(Math.abs(x.answer), Math.abs(y.answer))));
-
-	// 		console.log(data)
-
-	// 		data
-	// 		.enter()
-	// 		.append("p")
-	// 		.text(e => e.question + " " + parseFloat(e.answer).toFixed())
-	// 		.style("background-color", e => colorScale(e.answer));
-
-	// 		data
-	// 		.text(e => e.question + " " + parseFloat(e.answer).toFixed(1))
-	// 		.style("background-color", e => colorScale(e.answer));
-
-	// 	})
-
-	// })
-
 	
 }
 
@@ -231,11 +192,6 @@ var showCountry = function(code) {
 	visible_countries.push({"code":code,"color":color});
 	updateVis()
 
-	// svg.selectAll("circle." + code)
-	// .attr("fill",color)
-	// .transition()
-	// .attr("r", (d,n) => Math.sqrt(cluster_data[n].countries[code]));
-
 	//And change the country's button to that color
 	d3.select(".country_checkbox_wrapper." + code)
 	.transition()
@@ -253,14 +209,6 @@ var hideCountry = function(code) {
 	}
 
 	updateVis()
-
-	// svg.selectAll("circle." + code)
-	// .transition()
-	// .attr("r", 0);
-
-	// //And release the colour it was using
-	// var fill = svg.select("circle." + code).attr("fill");
-	// releaseColor(fill);
 
 	//And change the button
 	d3.select(".country_checkbox_wrapper." + code)
