@@ -11,7 +11,7 @@
 
 
 <body>
-	<h1>Making a sexy view of political groups</h1>
+	<h1>Making a nice view of international cultural groups</h1>
 	<div id = "svg_wrapper">
 	<svg id="my_datavis" height=800 width=800></svg>
 	</div>
@@ -85,7 +85,7 @@ var generateVis = function() {
 			data
 			.enter()
 			.append("p")
-			.text(e => e.question + " " + parseFloat(e.answer).toFixed(1))
+			.text(e => e.question + " " + parseFloat(e.answer).toFixed())
 			.style("background-color", e => colorScale(e.answer));
 
 			data
