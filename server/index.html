@@ -91,9 +91,9 @@ var updateVis = function() {
 		// console.log(total_num)
 
 		u
-		.data(data_ready)
 		.enter()
 		.append("path")
+		// .transition()
 		// .attr("r", "100px")
 		.attr('d', d3.arc()
 			.innerRadius(0)
@@ -105,7 +105,7 @@ var updateVis = function() {
 		.remove()
 
 		u
-		.data(data_ready)
+		// .transition()
 		.attr('d', d3.arc()
 			.innerRadius(0)
 			.outerRadius(Math.sqrt(total_num)))
@@ -124,6 +124,26 @@ var generateVis = function() {
 	.attr("class","cluster")
 	.attr("id", d=>"cluster_" + d.id)
 	.attr("transform", d => "translate(" + x(d.x) + "," + y(d.y) + ")")
+
+	
+	.on("mouseover", function(d, j) { //d is for this cluster
+			var data = d3.select("#tooltip_wrapper")
+			.selectAll("p")
+			.data(cluster_data[j].answers.sort((x,y) => d3.descending(Math.abs(x.answer), Math.abs(y.answer))));
+
+			// console.log(data)
+
+			data
+			.enter()
+			.append("p")
+			.text(e => e.question + " " + parseFloat(e.answer).toFixed())
+			.style("background-color", e => colorScale(e.answer));
+
+			data
+			.text(e => e.question + " " + parseFloat(e.answer).toFixed(1))
+			.style("background-color", e => colorScale(e.answer));
+
+		})
 
 
 	//Generate circles for every country
