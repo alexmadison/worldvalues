@@ -13,7 +13,7 @@
 <body>
 	<h1>Making a nice view of international cultural groups</h1>
 	<div id = "svg_wrapper">
-	<svg id="my_datavis" height=800 width=800></svg>
+		<svg id="my_datavis" height=800 width=800></svg>
 	</div>
 
 	<div id="checkbox_wrapper"></div>
@@ -23,17 +23,17 @@
 
 
 <script>
-var svg = d3.select("#my_datavis");
-var cluster_data;
-var country_data;
-var init_countries = ["GBR", "PAK", "USA", "RUS", "CHN"];
+	var svg = d3.select("#my_datavis");
+	var cluster_data;
+	var country_data;
+	var init_countries = ["GBR", "PAK", "USA", "RUS", "CHN"];
 
-var visible_countries = []
-var colors;
+	var visible_countries = []
+	var colors;
 
-d3.json("cluster_data.json", function(data) {
-	cluster_data = data
-	console.log(data)
+	d3.json("cluster_data.json", function(data) {
+		cluster_data = data
+		console.log(data)
 	//lol
 	d3.json("country_data.json", function(data) {
 		country_data = data
@@ -54,17 +54,17 @@ d3.json("cluster_data.json", function(data) {
 
 // X scale and Axis
 var x = d3.scaleLinear()
-    .domain([-3, 3])
-    .range([0, 800]);
+.domain([-3, 3])
+.range([0, 800]);
 
 // X scale and Axis
 var y = d3.scaleLinear()
-    .domain([-3, 3])
-    .range([800, 0]);
+.domain([-3, 3])
+.range([800, 0]);
 
 var colorScale = d3.scaleLinear()
-	.domain([-1.5,1.5])
-	.range(["red","green"])
+.domain([-1.5,1.5])
+.range(["red","green"])
 
 
 var updateVis = function() {
@@ -84,35 +84,51 @@ var updateVis = function() {
 		for (var i = 0; i < visible_countries.length; i++) {
 			total_num += parseFloat(c.countries[visible_countries[i].code])
 		}
-		// console.log(total_num)
+
+		var arc = d3.arc()
+		.innerRadius(0)
+		.outerRadius(Math.sqrt(total_num))
+
+		//Fuck knows
+		// function arcTween(a) {
+		// 	var i = d3.interpolate(this._current, a);
+		// 	this._current = i(0);
+		// 	return function(t) {
+		// 		return arc(i(t));
+		// 	};
+		// }
 
 		u
 		.enter()
 		.append("path")
+		.attr("fill",d => d.data.color)
+		.attr('d', arc)
+		.attr("class",d => d.data.code)
 		// .transition()
-		// .attr("r", "100px")
-		.attr('d', d3.arc()
-			.innerRadius(0)
-			.outerRadius(Math.sqrt(total_num)))
-		.attr("fill",d => d.data.color);
+		// .duration(1000)
+		// .attrTween("d", arcTween);
+
 
 		u
 		.exit()
 		.remove()
 
 		u
+		.attr('d', arc)
+		.attr("fill",d => d.data.color)
 		// .transition()
-		.attr('d', d3.arc()
-			.innerRadius(0)
-			.outerRadius(Math.sqrt(total_num)))
-		.attr("fill",d => d.data.color);
+		// .duration(1000)
+		// .attrTween("d", arcTween);
 
-   		
+
 	})
 }
 
+
+
 var generateVis = function() {
 
+	//Make cluster groups, to be populated in updatevis
 	svg.selectAll("g")
 	.data(cluster_data)
 	.enter()
@@ -121,11 +137,10 @@ var generateVis = function() {
 	.attr("id", d=>"cluster_" + d.id)
 	.attr("transform", d => "translate(" + x(d.x) + "," + y(d.y) + ")")
 
-
 	.on("mouseover", function(d, j) { //d is for this cluster
-			var data = d3.select("#tooltip_wrapper")
-			.selectAll("p")
-			.data(cluster_data[j].answers.sort((x,y) => d3.descending(Math.abs(x.answer), Math.abs(y.answer))));
+		var data = d3.select("#tooltip_wrapper")
+		.selectAll("p")
+		.data(cluster_data[j].answers.sort((x,y) => d3.descending(Math.abs(x.answer), Math.abs(y.answer))));
 
 			// console.log(data)
 
@@ -154,14 +169,14 @@ var generateCheckboxes = function() {
 	.attr("class",d => "country_checkbox_wrapper " + d.code)
 	.on("mouseover", function(d) {
 		if (d3.select("input." + d.code).property("checked")) {
-			d3.selectAll("circle")
+			d3.selectAll("path")
 			.attr("opacity", 0.2)
-			d3.selectAll("circle." + d.code)
+			d3.selectAll("path." + d.code)
 			.attr("opacity", 1.0)
 		}
 	})
 	.on("mouseout", function(d) {
-		d3.selectAll("circle")
+		d3.selectAll("path")
 		.attr("opacity",1.0)
 	})
 	;
@@ -262,12 +277,12 @@ var releaseColor = function(color) {
 
 
 var getRandomColor = function() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+	var letters = '0123456789ABCDEF';
+	var color = '#';
+	for (var i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
 }
 
 
