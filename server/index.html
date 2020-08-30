@@ -27,6 +27,8 @@ var svg = d3.select("#my_datavis");
 var cluster_data;
 var country_data;
 var init_countries = ["GBR", "PAK", "USA", "RUS", "CHN"];
+
+var visible_countries = []
 var colors;
 
 d3.json("cluster_data.json", function(data) {
@@ -42,6 +44,7 @@ d3.json("cluster_data.json", function(data) {
 
 			generateVis()
 			generateCheckboxes()
+			updateVis()
 			show_init()
 		});
 	});
@@ -63,38 +66,98 @@ var colorScale = d3.scaleLinear()
 	.domain([-1.5,1.5])
 	.range(["red","green"])
 
+
+var updateVis = function() {
+
+	svg.selectAll("g").each(function(c, c_i) { //c is this cluster's data, "this" is the group
+		// console.log(c)
+		// console.log(this)
+
+		var pie = d3.pie()
+		.value(d => c.countries[d.code])
+
+		var data_ready = pie(visible_countries)
+
+		// console.log(data_ready)
+
+		var u = d3.select("#" + this.id)
+		.selectAll("path")
+		.data(data_ready);
+
+		var total_num = 0
+		for (var i = 0; i < visible_countries.length; i++) {
+			total_num += parseFloat(c.countries[visible_countries[i].code])
+		}
+		// console.log(total_num)
+
+		u
+		.data(data_ready)
+		.enter()
+		.append("path")
+		// .attr("r", "100px")
+		.attr('d', d3.arc()
+			.innerRadius(0)
+			.outerRadius(Math.sqrt(total_num)))
+		.attr("fill",d => d.data.color);
+
+		u
+		.exit()
+		.remove()
+
+		u
+		.data(data_ready)
+		.attr('d', d3.arc()
+			.innerRadius(0)
+			.outerRadius(Math.sqrt(total_num)))
+		.attr("fill",d => d.data.color);
+
+   		
+	})
+}
+
 var generateVis = function() {
 
+	svg.selectAll("g")
+	.data(cluster_data)
+	.enter()
+	.append("g")
+	.attr("class","cluster")
+	.attr("id", d=>"cluster_" + d.id)
+	.attr("transform", d => "translate(" + x(d.x) + "," + y(d.y) + ")")
+
+
 	//Generate circles for every country
-	country_data.forEach(function(c, i) {
-		svg.selectAll("circle." + c.code)
-		.data(cluster_data)
-		.enter()
-		.append("circle")
-		.attr("class", c.code)
-		.attr("cx", d => x(d.x))
-		.attr("cy", d => y(d.y))
-		.attr("r", 0)
+	// country_data.forEach(function(c, i) {
+	// 	svg.selectAll("circle." + c.code)
+	// 	.data(cluster_data)
+	// 	.enter()
+	// 	.append("circle")
+	// 	.attr("class", c.code)
+	// 	.attr("cx", d => x(d.x))
+	// 	.attr("cy", d => y(d.y))
+	// 	.attr("r", 0)
 
-		//Add tooltip info
-		.on("mouseover", function(d, j) { //d is for this cluster
-			var data = d3.select("#tooltip_wrapper")
-			.selectAll("p")
-			.data(cluster_data[j].answers.sort((x,y) => d3.descending(Math.abs(x.answer), Math.abs(y.answer))));
+	// 	//Add tooltip info
+	// 	.on("mouseover", function(d, j) { //d is for this cluster
+	// 		var data = d3.select("#tooltip_wrapper")
+	// 		.selectAll("p")
+	// 		.data(cluster_data[j].answers.sort((x,y) => d3.descending(Math.abs(x.answer), Math.abs(y.answer))));
 
-			data
-			.enter()
-			.append("p")
-			.text(e => e.question + " " + parseFloat(e.answer).toFixed())
-			.style("background-color", e => colorScale(e.answer));
+	// 		console.log(data)
 
-			data
-			.text(e => e.question + " " + parseFloat(e.answer).toFixed(1))
-			.style("background-color", e => colorScale(e.answer));
+	// 		data
+	// 		.enter()
+	// 		.append("p")
+	// 		.text(e => e.question + " " + parseFloat(e.answer).toFixed())
+	// 		.style("background-color", e => colorScale(e.answer));
 
-		})
+	// 		data
+	// 		.text(e => e.question + " " + parseFloat(e.answer).toFixed(1))
+	// 		.style("background-color", e => colorScale(e.answer));
 
-	})
+	// 	})
+
+	// })
 
 	
 }
@@ -145,10 +208,13 @@ var generateCheckboxes = function() {
 var showCountry = function(code) {
 	var color = getNextColor();
 
-	svg.selectAll("circle." + code)
-	.attr("fill",color)
-	.transition()
-	.attr("r", (d,n) => Math.sqrt(cluster_data[n].countries[code]));
+	visible_countries.push({"code":code,"color":color});
+	updateVis()
+
+	// svg.selectAll("circle." + code)
+	// .attr("fill",color)
+	// .transition()
+	// .attr("r", (d,n) => Math.sqrt(cluster_data[n].countries[code]));
 
 	//And change the country's button to that color
 	d3.select(".country_checkbox_wrapper." + code)
@@ -158,13 +224,23 @@ var showCountry = function(code) {
 }
 
 var hideCountry = function(code) {
-	svg.selectAll("circle." + code)
-	.transition()
-	.attr("r", 0);
 
-	//And release the colour it was using
-	var fill = svg.select("circle." + code).attr("fill");
-	releaseColor(fill);
+	for (var i = 0; i < visible_countries.length; i++) {
+		if (visible_countries[i].code == code) {
+			releaseColor(visible_countries[i].color)
+			visible_countries.splice(i, 1); //How you remove from index, appaz
+		}
+	}
+
+	updateVis()
+
+	// svg.selectAll("circle." + code)
+	// .transition()
+	// .attr("r", 0);
+
+	// //And release the colour it was using
+	// var fill = svg.select("circle." + code).attr("fill");
+	// releaseColor(fill);
 
 	//And change the button
 	d3.select(".country_checkbox_wrapper." + code)
