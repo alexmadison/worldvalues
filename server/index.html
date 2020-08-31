@@ -162,7 +162,7 @@ var generateCheckboxes = function() {
 
 	//Set up divs and mouseover transparency
 	var checkbox_divs = d3.select("#checkbox_wrapper")
-	.selectAll("input")
+	.selectAll("div")
 	.data(country_data)
 	.enter()
 	.append("div")
@@ -186,7 +186,7 @@ var generateCheckboxes = function() {
 	.attr("type","checkbox")
 	.attr("id", d => "checkbox_" + d.code)
 	.attr("class", d => d.code)
-	.property("code", d => d.code)
+	.attr("code", d => d.code)
 	.on("change", function(d) {
 		if (d3.select(this).property("checked")) {
 			showCountry(d.code)
