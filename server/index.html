@@ -20,7 +20,7 @@
 	<button onclick = "hideAllCountries()">Clear all</button>
 	<button onclick = "showAllCountries()">Show all</button>
 
-	<label for="embedding_choice">Choose embedding:</label>
+	<label for="embedding_choice">Embedding:</label>
 	<select id = "embedding_selector" name="embedding_choice" id="cars" onchange="updateClusters()">
 	  <option value="tsne">tsne</option>
 	  <option value="emanc_sec">sac_emanc</option>
@@ -97,25 +97,12 @@ var updateVis = function() {
 		.innerRadius(0)
 		.outerRadius(Math.sqrt(total_num))
 
-		//Fuck knows
-		// function arcTween(a) {
-		// 	var i = d3.interpolate(this._current, a);
-		// 	this._current = i(0);
-		// 	return function(t) {
-		// 		return arc(i(t));
-		// 	};
-		// }
-
 		u
 		.enter()
 		.append("path")
 		.attr("fill",d => d.data.color)
 		.attr('d', arc)
 		.attr("class",d => d.data.code)
-		// .transition()
-		// .duration(1000)
-		// .attrTween("d", arcTween);
-
 
 		u
 		.exit()
@@ -124,10 +111,6 @@ var updateVis = function() {
 		u
 		.attr('d', arc)
 		.attr("fill",d => d.data.color)
-		// .transition()
-		// .duration(1000)
-		// .attrTween("d", arcTween);
-
 
 	})
 }
