@@ -18,6 +18,7 @@
 
 	<div id="checkbox_wrapper"></div>
 	<button onclick = "hideAllCountries()">Clear all</button>
+	<button onclick = "showAllCountries()">Show all</button>
 	<div id="tooltip_wrapper"><p></p></div>
 </body>
 
@@ -54,12 +55,12 @@
 
 // X scale and Axis
 var x = d3.scaleLinear()
-.domain([-3, 3])
+.domain([-0.1, 1.1])
 .range([0, 800]);
 
 // X scale and Axis
 var y = d3.scaleLinear()
-.domain([-3, 3])
+.domain([-0.1, 1.1])
 .range([800, 0]);
 
 var colorScale = d3.scaleLinear()
@@ -136,6 +137,8 @@ var generateVis = function() {
 	.attr("class","cluster")
 	.attr("id", d=>"cluster_" + d.id)
 	.attr("transform", d => "translate(" + x(d.x) + "," + y(d.y) + ")")
+	// .attr("transform", d => "translate(" + x(d.x_emanc) + "," + y(d.x_sec) + ")")
+
 
 	.on("mouseover", function(d, j) { //d is for this cluster
 		var data = d3.select("#tooltip_wrapper")
@@ -233,11 +236,46 @@ var hideCountry = function(code) {
 }
 
 var hideAllCountries = function() {
-	for (var i = 0; i < country_data.length; i++) {
-		hideCountry(country_data[i].code);
+	for (var i = 0; i < visible_countries.length; i++) {
+		releaseColor(visible_countries[i].color);
 	}
+	visible_countries = [];
+
 	d3.selectAll("#checkbox_wrapper input")
-	.property("checked",false)
+	.property("checked",false);
+
+	d3.selectAll("#checkbox_wrapper div")
+	.transition()
+	.style("background-color",null)
+	.style("color",null);
+
+	updateVis()
+}
+
+var showAllCountries = function() {
+	//Get list of codes already present
+	var visible_codes = []
+	for (var i = 0; i < visible_countries.length; i++) {
+		visible_codes.push(visible_countries[i].code)
+	}
+
+	//Add all codes and new colours if not already present
+	for (var i = 0; i < country_data.length; i++) {
+		var code = country_data[i].code
+		if (! visible_codes.includes(code)) {
+			var color = getNextColor();
+			visible_countries.push({"code":code,"color":color});
+			d3.select(".country_checkbox_wrapper." + code)
+			// .transition()
+			.style("background-color",color)
+			.style("color","white")
+		}
+	}
+
+	updateVis()
+
+	d3.selectAll("#checkbox_wrapper input")
+	.property("checked",true)
 }
 
 var show_init = function() {
