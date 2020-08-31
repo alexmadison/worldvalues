@@ -19,6 +19,13 @@
 	<div id="checkbox_wrapper"></div>
 	<button onclick = "hideAllCountries()">Clear all</button>
 	<button onclick = "showAllCountries()">Show all</button>
+
+	<label for="embedding_choice">Choose embedding:</label>
+	<select id = "embedding_selector" name="embedding_choice" id="cars" onchange="updateClusters()">
+	  <option value="tsne">tsne</option>
+	  <option value="emanc_sec">sac_emanc</option>
+	</select>
+
 	<div id="tooltip_wrapper"><p></p></div>
 </body>
 
@@ -125,7 +132,19 @@ var updateVis = function() {
 	})
 }
 
-
+var updateClusters = function() {
+	var embedding_code = d3.select("#embedding_selector").property("value");
+	if (embedding_code == "emanc_sec") {
+		svg.selectAll("g")
+		.transition()
+		.attr("transform", d => "translate(" + x(d.x_sec) + "," + y(d.x_emanc) + ")");
+	} else {
+		svg.selectAll("g")
+		.transition()
+		.attr("transform", d => "translate(" + x(d.x) + "," + y(d.y) + ")");
+	}
+	
+}
 
 var generateVis = function() {
 
@@ -137,7 +156,6 @@ var generateVis = function() {
 	.attr("class","cluster")
 	.attr("id", d=>"cluster_" + d.id)
 	.attr("transform", d => "translate(" + x(d.x) + "," + y(d.y) + ")")
-	// .attr("transform", d => "translate(" + x(d.x_emanc) + "," + y(d.x_sec) + ")")
 
 
 	.on("mouseover", function(d, j) { //d is for this cluster
