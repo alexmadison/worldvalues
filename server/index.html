@@ -29,6 +29,9 @@
 	  <option value="emanc_sec">sac_emanc</option>
 	</select>
 
+	<input type="checkbox" id="normalise_checkbox" onchange = "updateVis()">
+	<label for="normalise_checkbox">Normalise populations</label>
+
 	<div id="tooltip_wrapper"><p></p></div>
 </body>
 
@@ -57,7 +60,7 @@
 			generateCheckboxes()
 			updateVis()
 			show_init()
-			generateContours()
+			// generateContours()
 		});
 	});
 });
@@ -83,8 +86,15 @@ var updateVis = function() {
 
 	svg.select("#pie_group").selectAll("g").each(function(c, c_i) { //c is this cluster's data, "this" is the group
 
-		var pie = d3.pie()
-		.value(d => c.countries[d.code]) //Think this converts to degrees
+		var normalise = d3.select("#normalise_checkbox").property("checked");
+
+		var pie = d3.pie();
+
+		if (normalise) {
+			pie.value(d => c.countries_fraction[d.code]) //Think this converts to degrees
+		} else {
+			pie.value(d => c.countries_true[d.code]) //Think this converts to degrees
+		}
 
 		var data_ready = pie(visible_countries)
 
@@ -92,14 +102,22 @@ var updateVis = function() {
 		.selectAll("path")
 		.data(data_ready);
 
-		var total_num = 0
+		var total_true = 0
+		var total_frac = 0
 		for (var i = 0; i < visible_countries.length; i++) {
-			total_num += parseFloat(c.countries[visible_countries[i].code])
+			total_true += parseFloat(c.countries_true[visible_countries[i].code]);
+			total_frac += parseFloat(c.countries_fraction[visible_countries[i].code]);
 		}
 
 		var arc = d3.arc()
 		.innerRadius(0)
-		.outerRadius(Math.sqrt(total_num))
+
+		if (normalise) {
+			arc.outerRadius(Math.sqrt(5000*total_frac));
+		} else {
+			arc.outerRadius(Math.sqrt(total_true/100000));
+		}
+		
 
 		u
 		.enter()
