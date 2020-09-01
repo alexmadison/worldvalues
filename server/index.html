@@ -29,7 +29,7 @@
 	  <option value="emanc_sec">sac_emanc</option>
 	</select>
 
-	<input type="checkbox" id="normalise_checkbox" onchange = "updateVis()">
+	<input type="checkbox" id="normalise_checkbox" onchange = "updateVis()" checked>
 	<label for="normalise_checkbox">Normalise populations</label>
 
 	<div id="tooltip_wrapper"><p></p></div>
@@ -115,7 +115,7 @@ var updateVis = function() {
 		if (normalise) {
 			arc.outerRadius(Math.sqrt(5000*total_frac));
 		} else {
-			arc.outerRadius(Math.sqrt(total_true/100000));
+			arc.outerRadius(Math.sqrt(total_true/50000));
 		}
 		
 
