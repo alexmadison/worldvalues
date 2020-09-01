@@ -13,7 +13,10 @@
 <body>
 	<h1>Making a nice view of international cultural groups</h1>
 	<div id = "svg_wrapper">
-		<svg id="my_datavis" height=800 width=800></svg>
+		<svg id="my_datavis" height=800 width=800>
+			<g id = "contour_group"> </g>
+			<g id = "pie_group"> </g>
+		</svg>
 	</div>
 
 	<div id="checkbox_wrapper"></div>
@@ -54,6 +57,7 @@
 			generateCheckboxes()
 			updateVis()
 			show_init()
+			generateContours()
 		});
 	});
 });
@@ -77,7 +81,7 @@ var colorScale = d3.scaleLinear()
 
 var updateVis = function() {
 
-	svg.selectAll("g").each(function(c, c_i) { //c is this cluster's data, "this" is the group
+	svg.select("#pie_group").selectAll("g").each(function(c, c_i) { //c is this cluster's data, "this" is the group
 
 		var pie = d3.pie()
 		.value(d => c.countries[d.code]) //Think this converts to degrees
@@ -118,11 +122,11 @@ var updateVis = function() {
 var updateClusters = function() {
 	var embedding_code = d3.select("#embedding_selector").property("value");
 	if (embedding_code == "emanc_sec") {
-		svg.selectAll("g")
+		svg.selectAll("g.cluster, circle.cluster")
 		.transition()
 		.attr("transform", d => "translate(" + x(d.x_sec) + "," + y(d.x_emanc) + ")");
 	} else {
-		svg.selectAll("g")
+		svg.selectAll("g.cluster, circle.cluster")
 		.transition()
 		.attr("transform", d => "translate(" + x(d.x) + "," + y(d.y) + ")");
 	}
@@ -132,7 +136,7 @@ var updateClusters = function() {
 var generateVis = function() {
 
 	//Make cluster groups, to be populated in updatevis
-	svg.selectAll("g")
+	svg.select("#pie_group").selectAll("g")
 	.data(cluster_data)
 	.enter()
 	.append("g")
@@ -158,8 +162,36 @@ var generateVis = function() {
 			.text(e => e.question + " " + parseFloat(e.answer).toFixed(1))
 			.style("background-color", e => colorScale(e.answer));
 
-		})
-	
+		});
+
+}
+
+var generateContours = function() {
+
+	var s_o = d3.scaleLinear()
+	.domain([-2, 2])
+	.range([0, 1])
+	.clamp(true);
+
+	var s_c = d3.scaleLinear()
+	.domain([-2, 2])
+	.range(["red", "green"])
+	.clamp(true);
+
+	svg.select("#contour_group")
+	.selectAll("circle")
+	.data(cluster_data)
+	.enter()
+	.append("circle")
+	.attr("class", d =>  "cluster contour cluster_" + d.id)
+	// .attr("cx", d => x(d.x)).attr("cy", d => y(d.y))
+	.attr("transform", d => "translate(" + x(d.x) + "," + y(d.y) + ")")
+
+	.attr("r", "50")
+	.attr("opacity", d => s_o(d.answers[98].answer))
+	// .attr("fill", "red")
+	.attr("fill",d => s_c(d.answers[98].answer))
+
 }
 
 var generateCheckboxes = function() {
