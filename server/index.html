@@ -138,6 +138,7 @@ var updateVis = function() {
 		u
 		.attr('d', arc)
 		.attr("fill",d => d.data.color)
+		.attr("class",d => d.data.code)
 
 	})
 }
