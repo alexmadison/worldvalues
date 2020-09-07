@@ -3,6 +3,7 @@
 	<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 	<!-- Load d3.js -->
 	<script src="https://d3js.org/d3.v4.js"></script>
+
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="style.css">
 	<title>D3 is sxc</title>
@@ -25,18 +26,22 @@
 
 	<label for="embedding_choice">Embedding:</label>
 	<select id = "embedding_selector" name="embedding_choice" id="cars" onchange="updateClusters()">
-	  <option value="tsne">tsne</option>
-	  <option value="emanc_sec">sac_emanc</option>
+		<option value="tsne">tsne</option>
+		<option value="emanc_sec">sac_emanc</option>
 	</select>
 
 	<input type="checkbox" id="normalise_checkbox" onchange = "updateVis()" checked>
 	<label for="normalise_checkbox">Normalise populations</label>
 
-	<div id="tooltip_wrapper"></div>
+	<div id="tooltip_wrapper">
+		<div id = "qualities_wrapper"></div>
+		<div id = "inhabitants_wrapper"></div>
+	</div>
 </body>
 
 
 <script>
+	console.log()
 	var svg = d3.select("#my_datavis");
 	var cluster_data;
 	var country_data;
@@ -151,6 +156,21 @@ var updateClusters = function() {
 	
 }
 
+var codeToName = function(code) {
+	var j = -1;
+	for (var i = 0; i < country_data.length; i++) {
+		if (country_data[i].code == code) {
+			j = i
+		}
+	}
+
+	if (j!= -1) {
+		return country_data[j].name
+	} else {
+		return "InvalidCountryCode"
+	}
+} 
+
 var generateVis = function() {
 
 	//Make cluster groups, to be populated in updatevis
@@ -164,23 +184,50 @@ var generateVis = function() {
 
 
 	.on("mouseover", function(d, j) { //d is for this cluster
-		var data = d3.select("#tooltip_wrapper")
+
+		var absSort = (x,y) => d3.descending(Math.abs(x.answer), Math.abs(y.answer));
+
+		//Make mouseover of cluster answers
+		var data = d3.select("#qualities_wrapper")
 		.selectAll("p")
-		.data(cluster_data[j].answers.sort((x,y) => d3.descending(Math.abs(x.answer), Math.abs(y.answer))));
+		.data(cluster_data[j].answers.sort(absSort));
 
-			// console.log(data)
+		data
+		.enter()
+		.append("p")
+		.text(e => e.question + " " + parseFloat(e.answer).toFixed())
+		.style("background-color", e => colorScale(e.answer));
 
-			data
-			.enter()
-			.append("p")
-			.text(e => e.question + " " + parseFloat(e.answer).toFixed())
-			.style("background-color", e => colorScale(e.answer));
+		data
+		.text(e => e.question + " " + parseFloat(e.answer).toFixed(1))
+		.style("background-color", e => colorScale(e.answer));
 
-			data
-			.text(e => e.question + " " + parseFloat(e.answer).toFixed(1))
-			.style("background-color", e => colorScale(e.answer));
+		//Now also cluster population makeup
+		var inhabData = d3.select("#inhabitants_wrapper")
+		.selectAll("p")
+		.data(visible_countries);
 
-		});
+		var text_func = function(e) {
+			true_pop = d3.format(".2s")(cluster_data[j].countries_true[e.code])
+			frac_pop = d3.format(".2")(cluster_data[j].countries_fraction[e.code] * 100)
+			return  true_pop + " (" + frac_pop + "% of pop.) from " + codeToName(e.code)
+		}
+
+		inhabData
+		.enter()
+		.append("p")
+		.text(text_func);
+
+		inhabData
+		.text(text_func);
+
+		inhabData
+		.exit()
+		.remove();
+
+	});
+
+
 
 }
 

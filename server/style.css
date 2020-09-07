@@ -29,17 +29,26 @@ circle:hover{
 #tooltip_wrapper {
 	position: absolute;
 	left: 800px;
+	/*right: 0px*/
 	height: auto;
-	color: white;
-	/*background-color: red;*/
-	width: 300px;
 	font-size : 12pt;
 	font-weight: 500;
+	float: left;
 }
 
-#tooltip_wrapper.hidden {
-	visibility: hidden;
+#qualities_wrapper {
+	display: inline-block;
+	color: white;
+	width: 300px;
+	float: left;
 }
+
+#inhabitants_wrapper {
+	display: inline-block;
+	
+	float:left;
+}
+
 
 #svg_wrapper {
 	display: inline-block;
