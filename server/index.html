@@ -205,7 +205,7 @@ var generateVis = function() {
 		//Now also cluster population makeup
 		var inhabData = d3.select("#inhabitants_wrapper")
 		.selectAll("p")
-		.data(visible_countries);
+		.data(visible_countries.sort((x,y) => d.countries_true[y.code] -  d.countries_true[x.code]));
 
 		var text_func = function(e) {
 			true_pop = d3.format(".2s")(cluster_data[j].countries_true[e.code])

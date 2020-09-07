@@ -1,6 +1,4 @@
-div {
-	/*background-color: None;*/
-}
+
 
 body {
 	font-family: 'Roboto', sans-serif;
@@ -15,16 +13,18 @@ svg {
 	display: block;
 }
 
-circle{
-	/*opacity: 0.8;*/
-	/*transition:0.2s;*/
+p {
+	margin : 0 0 0 0;
 }
 
-circle:hover{
-	/*opacity: 1;*/
+/*
+path:hover {
+	opacity: 1;
 }
 
-
+path {
+	opacity: 0.9;
+}*/
 
 #tooltip_wrapper {
 	position: absolute;
@@ -34,18 +34,20 @@ circle:hover{
 	font-size : 12pt;
 	font-weight: 500;
 	float: left;
+	margin: 0;
 }
 
 #qualities_wrapper {
 	display: inline-block;
 	color: white;
 	width: 300px;
+	/*width: auto;*/
 	float: left;
 }
 
 #inhabitants_wrapper {
 	display: inline-block;
-	
+
 	float:left;
 }
 
