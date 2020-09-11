@@ -85,6 +85,13 @@ div.header {
 
 }
 
+
+/*idk*/
+#content_wrapper {
+	height: auto;
+	overflow: auto; 
+}
+
 #tooltip_wrapper p {
 	margin: 0 0 0 0;
 	padding: 0 0.1em;
@@ -103,9 +110,28 @@ div.header {
 	float:left;
 }
 
+div.bibliography {
+	max-width: 40%;
+}
+
+.bibliography {
+	opacity: 0.1;
+	font-size: 10pt;
+}
+
+.bibliography:hover {
+	opacity: 1;
+}
+
 
 .country_checkbox_wrapper {
 	display: inline-block;
 	width : 4pc;
 	padding: 3px 3px;
+}
+
+
+div.footer {
+	float: none;
+	display: block;
 }

@@ -6,7 +6,7 @@
 
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="style.css">
-	<title>D3 is sxc</title>
+	<title>D3 Culture vis</title>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;900&display=swap" rel="stylesheet">
 </head>
 
@@ -14,45 +14,68 @@
 <body>
 	<div class = "header">
 		<h1>Visualising international cultural groups</h1>
-		<p>Mouseover each cluster for cluster information</p>
+		<p>Mouseover each cluster for cluster information. <br>
+		Clusters are positioned by their similarity. <br>
+		Survey responses have been normalised. <br>
+		Made with d3.js using the joint World Values Survey and European Values Survey dataset.<br>
+		Citations below.
+	</p>
 	</div>
 	
-	<div id = "svg_wrapper">
-		<svg id="my_datavis" height=800 width=800>
-			<g id = "contour_group"> </g>
-			<g id = "pie_group"> </g>
-		</svg>
+	<div id = "content_wrapper">
+		<div id = "svg_wrapper">
+			<svg id="my_datavis" height=800 width=800>
+				<g id = "contour_group"> </g>
+				<g id = "pie_group"> </g>
+			</svg>
+		</div>
+
+		<div id="checkbox_wrapper">
+			<p class = "headers region_ssafrica">Sub-Saharan Africa</p>
+			<p class = "headers region_sasia">South Asia</p>
+			<p class = "headers region_namerica">North America</p>
+			<p class = "headers region_meast_nafrica">Middle East & North Africa</p>
+			<p class = "headers region_latin_carib">Latin America & Caribbean</p>
+			<p class = "headers region_europe_casia">Europe & Central Asia</p>
+			<p class = "headers region_easia">East Asia</p>
+
+
+
+		</div>
+		<button onclick = "hideAllCountries()">Clear all</button>
+		<button onclick = "showAllCountries()">Show all</button>
+
+		<label for="embedding_choice">Embedding:</label>
+		<select id = "embedding_selector" name="embedding_choice" id="cars" onchange="updateClusters()">
+			<option value="tsne">tsne</option>
+			<option value="emanc_sec">sac_emanc</option>
+		</select>
+
+		<input type="checkbox" id="normalise_checkbox" onchange = "updateVis()" checked>
+		<label for="normalise_checkbox">Normalise populations</label>
+
+		<div id="tooltip_wrapper">
+			<div id = "qualities_wrapper"></div>
+			<div id = "inhabitants_wrapper"></div>
+		</div>
 	</div>
 
-	<div id="checkbox_wrapper">
-		<p class = "headers region_ssafrica">Sub-Saharan Africa</p>
-		<p class = "headers region_sasia">South Asia</p>
-		<p class = "headers region_namerica">North America</p>
-		<p class = "headers region_meast_nafrica">Middle East & North Africa</p>
-		<p class = "headers region_latin_carib">Latin America & Caribbean</p>
-		<p class = "headers region_europe_casia">Europe & Central Asia</p>
-		<p class = "headers region_easia">East Asia</p>
-
-
-
-	</div>
-	<button onclick = "hideAllCountries()">Clear all</button>
-	<button onclick = "showAllCountries()">Show all</button>
-
-	<label for="embedding_choice">Embedding:</label>
-	<select id = "embedding_selector" name="embedding_choice" id="cars" onchange="updateClusters()">
-		<option value="tsne">tsne</option>
-		<option value="emanc_sec">sac_emanc</option>
-	</select>
-
-	<input type="checkbox" id="normalise_checkbox" onchange = "updateVis()" checked>
-	<label for="normalise_checkbox">Normalise populations</label>
-
-	<div id="tooltip_wrapper">
-		<div id = "qualities_wrapper"></div>
-		<div id = "inhabitants_wrapper"></div>
+	<div class = "footer">
+		<div class = "bibliography">
+		<p><b>World Values Survey:</b> Haerpfer, C., Inglehart, R., Moreno, A., Welzel, C., Kizilova, K., Diez-Medrano J., M. Lagos,
+		P. Norris, E. Ponarin & B. Puranen et al. (eds.). 2020. World Values Survey: Round Seven –
+		Country-Pooled Datafile. Madrid, Spain & Vienna, Austria: JD Systems Institute & WVSA
+		Secretariat [Version: http://www.worldvaluessurvey.org/WVSDocumentationWV7.jsp].
+		<br>
+		<b>European Values Survey:</b> 
+		EVS (2020): European Values Study 2017: Integrated Dataset (EVS 2017). GESIS Data
+		Archive, Cologne. ZA7500 Data file Version 3.0.0, doi:10.4232/1.13511
+		</p>
+		</div>
 	</div>
 </body>
+
+
 
 
 <script>
