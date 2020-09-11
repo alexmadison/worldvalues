@@ -89,7 +89,7 @@ div.header {
 /*idk*/
 #content_wrapper {
 	height: auto;
-	overflow: auto; 
+	/*overflow: auto; */
 }
 
 #tooltip_wrapper p {
@@ -110,8 +110,21 @@ div.header {
 	float:left;
 }
 
+#page_wrapper {
+	min-height: 150vh;
+	position: relative
+}
+
+#footer {
+	position: absolute;
+	float: none;
+	display: block;
+	bottom: 0;
+}
+
 div.bibliography {
 	max-width: 40%;
+	padding-left: 1em;
 }
 
 .bibliography {
@@ -131,7 +144,3 @@ div.bibliography {
 }
 
 
-div.footer {
-	float: none;
-	display: block;
-}
