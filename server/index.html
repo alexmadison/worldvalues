@@ -271,15 +271,11 @@ var generateContours = function() {
 
 }
 
-var silly_aux_variable = true;
+var silly_aux_variable = 0;
 var alternate_columns = function(region) {
 	if (region == "europe_casia") {
-		silly_aux_variable = ! silly_aux_variable
-		if(silly_aux_variable) {
-			return " col1"
-		} else {
-			return " col2"
-		}
+		silly_aux_variable = (silly_aux_variable + 1) % 3
+		return " col" + silly_aux_variable
 	} else {
 		return ""
 	}
