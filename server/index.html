@@ -13,15 +13,7 @@
 
 <body>
 	<div id = "page_wrapper">
-	<div class = "header">
-		<h1>Visualising international cultural groups</h1>
-		<p>Mouseover each cluster for cluster information. <br>
-		Clusters are positioned by their similarity. <br>
-		Survey responses have been normalised. <br>
-		Made with d3.js using the joint World Values Survey and European Values Survey dataset.<br>
-		Citations below.
-	</p>
-	</div>
+	
 	
 	<div id = "content_wrapper">
 		<div id = "svg_wrapper">
@@ -29,6 +21,18 @@
 				<g id = "contour_group"> </g>
 				<g id = "pie_group"> </g>
 			</svg>
+		</div>
+
+		<div class = "header">
+		<h1>Visualising international cultural groups</h1>
+		<p>
+		Each cluster represents a group of culturally similar people. <br>
+		Mouse over each cluster for information. <br>
+		Clusters are positioned by their similarity. <br>
+		Survey responses have been standardised, positive means yes/agree/first.<br>
+		Made with d3.js using the joint <a href = "http://www.worldvaluessurvey.org/wvs.jsp"> World Values Survey </a> and <a href = "https://europeanvaluesstudy.eu/" >European Values Survey</a> dataset.<br>
+		Citations below.
+		</p>
 		</div>
 
 		<div id="checkbox_wrapper">
@@ -44,7 +48,7 @@
 
 		</div>
 		<button onclick = "hideAllCountries()">Clear all</button>
-		<button onclick = "showAllCountries()">Show all</button>
+		<!-- <button onclick = "showAllCountries()">Show all</button> -->
 
 		<label for="embedding_choice">Embedding:</label>
 		<select id = "embedding_selector" name="embedding_choice" id="cars" onchange="updateClusters()">
