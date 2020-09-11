@@ -2,29 +2,54 @@
 
 body {
 	font-family: 'Roboto', sans-serif;
-	font-size: 14pt;
-	font-weight : 900;
+	font-size: 12pt;
+	font-weight : 500;
 	color: #222222;
 }
 
 svg {
-	/*background-color: #F9F9F9;*/
-	/*margin: 0 auto;*/
 	display: block;
 }
 
 p {
-	margin : 0 0 0 0;
+	/*margin : 0 0 0 0;*/
 }
 
-/*
-path:hover {
-	opacity: 1;
+#checkbox_wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-auto-flow: column;
+	height: 500px;
 }
 
-path {
-	opacity: 0.9;
-}*/
+.headers {
+	font-weight: 500;
+	font-size: 10pt;
+}
+
+.region_ssafrica {
+	grid-column: 1;
+}
+.region_sasia {
+	grid-column: 2;
+}
+.region_namerica {
+	grid-column: 3;
+}
+.region_meast_nafrica {
+	grid-column: 4;
+}
+.region_latin_carib {
+	grid-column: 5;
+}
+.region_europe_casia {
+	grid-column: 6;
+}
+.region_easia {
+	grid-column: 7;
+}
+
+
 
 #tooltip_wrapper {
 	position: absolute;
@@ -57,13 +82,9 @@ path {
 	float:left;
 }
 
-#checkbox_wrapper {
-	display:inline-block;
-	width : 30%;
-}
 
 .country_checkbox_wrapper {
 	display: inline-block;
-	width : 5pc;
-	padding: 5px 5px;
+	width : 4pc;
+	padding: 3px 3px;
 }

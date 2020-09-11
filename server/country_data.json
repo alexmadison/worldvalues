@@ -1,66 +1,387 @@
 [
     {
+        "code": "ALB",
+        "name": "Albania",
+        "region": "europe_casia"
+    },
+    {
+        "code": "AND",
+        "name": "Andorra",
+        "region": "europe_casia"
+    },
+    {
         "code": "AZE",
-        "name": "Azerbaijan"
+        "name": "Azerbaijan",
+        "region": "europe_casia"
     },
     {
         "code": "ARG",
-        "name": "Argentina"
+        "name": "Argentina",
+        "region": "latin_carib"
+    },
+    {
+        "code": "AUS",
+        "name": "Australia",
+        "region": "easia"
+    },
+    {
+        "code": "AUT",
+        "name": "Austria",
+        "region": "europe_casia"
+    },
+    {
+        "code": "BGD",
+        "name": "Bangladesh",
+        "region": "sasia"
+    },
+    {
+        "code": "ARM",
+        "name": "Armenia",
+        "region": "europe_casia"
+    },
+    {
+        "code": "BOL",
+        "name": "Bolivia, Plurinational State of",
+        "region": "latin_carib"
+    },
+    {
+        "code": "BIH",
+        "name": "Bosnia and Herzegovina",
+        "region": "europe_casia"
+    },
+    {
+        "code": "BRA",
+        "name": "Brazil",
+        "region": "latin_carib"
+    },
+    {
+        "code": "BGR",
+        "name": "Bulgaria",
+        "region": "europe_casia"
+    },
+    {
+        "code": "MMR",
+        "name": "Myanmar",
+        "region": "easia"
+    },
+    {
+        "code": "BLR",
+        "name": "Belarus",
+        "region": "europe_casia"
+    },
+    {
+        "code": "CHL",
+        "name": "Chile",
+        "region": "latin_carib"
     },
     {
         "code": "CHN",
-        "name": "China"
+        "name": "China",
+        "region": "easia"
     },
     {
         "code": "TWN",
-        "name": "Taiwan, Province of China"
+        "name": "Taiwan, Province of China",
+        "region": "easia"
+    },
+    {
+        "code": "COL",
+        "name": "Colombia",
+        "region": "latin_carib"
+    },
+    {
+        "code": "HRV",
+        "name": "Croatia",
+        "region": "europe_casia"
+    },
+    {
+        "code": "CYP",
+        "name": "Cyprus",
+        "region": "europe_casia"
+    },
+    {
+        "code": "CZE",
+        "name": "Czechia",
+        "region": "europe_casia"
+    },
+    {
+        "code": "DNK",
+        "name": "Denmark",
+        "region": "europe_casia"
+    },
+    {
+        "code": "ECU",
+        "name": "Ecuador",
+        "region": "latin_carib"
+    },
+    {
+        "code": "ETH",
+        "name": "Ethiopia",
+        "region": "ssafrica"
+    },
+    {
+        "code": "EST",
+        "name": "Estonia",
+        "region": "europe_casia"
+    },
+    {
+        "code": "FIN",
+        "name": "Finland",
+        "region": "europe_casia"
+    },
+    {
+        "code": "FRA",
+        "name": "France",
+        "region": "europe_casia"
+    },
+    {
+        "code": "GEO",
+        "name": "Georgia",
+        "region": "europe_casia"
     },
     {
         "code": "DEU",
-        "name": "Germany"
+        "name": "Germany",
+        "region": "europe_casia"
     },
     {
-        "code": "PAK",
-        "name": "Pakistan"
+        "code": "GRC",
+        "name": "Greece",
+        "region": "europe_casia"
+    },
+    {
+        "code": "GTM",
+        "name": "Guatemala",
+        "region": "latin_carib"
     },
     {
         "code": "HKG",
-        "name": "Hong Kong"
+        "name": "Hong Kong",
+        "region": "easia"
+    },
+    {
+        "code": "HUN",
+        "name": "Hungary",
+        "region": "europe_casia"
+    },
+    {
+        "code": "ISL",
+        "name": "Iceland",
+        "region": "europe_casia"
+    },
+    {
+        "code": "IDN",
+        "name": "Indonesia",
+        "region": "easia"
     },
     {
         "code": "IRN",
-        "name": "Iran, Islamic Republic of"
+        "name": "Iran, Islamic Republic of",
+        "region": "meast_nafrica"
     },
     {
         "code": "IRQ",
-        "name": "Iraq"
+        "name": "Iraq",
+        "region": "meast_nafrica"
+    },
+    {
+        "code": "ITA",
+        "name": "Italy",
+        "region": "europe_casia"
     },
     {
         "code": "JPN",
-        "name": "Japan"
+        "name": "Japan",
+        "region": "easia"
+    },
+    {
+        "code": "KAZ",
+        "name": "Kazakhstan",
+        "region": "europe_casia"
+    },
+    {
+        "code": "JOR",
+        "name": "Jordan",
+        "region": "meast_nafrica"
+    },
+    {
+        "code": "KOR",
+        "name": "Korea, Republic of",
+        "region": "easia"
+    },
+    {
+        "code": "KGZ",
+        "name": "Kyrgyzstan",
+        "region": "europe_casia"
+    },
+    {
+        "code": "LBN",
+        "name": "Lebanon",
+        "region": "meast_nafrica"
+    },
+    {
+        "code": "LTU",
+        "name": "Lithuania",
+        "region": "europe_casia"
+    },
+    {
+        "code": "MAC",
+        "name": "Macao",
+        "region": "easia"
+    },
+    {
+        "code": "MYS",
+        "name": "Malaysia",
+        "region": "easia"
+    },
+    {
+        "code": "MEX",
+        "name": "Mexico",
+        "region": "latin_carib"
+    },
+    {
+        "code": "MNE",
+        "name": "Montenegro",
+        "region": "europe_casia"
+    },
+    {
+        "code": "NLD",
+        "name": "Netherlands",
+        "region": "europe_casia"
+    },
+    {
+        "code": "NZL",
+        "name": "New Zealand",
+        "region": "easia"
+    },
+    {
+        "code": "NIC",
+        "name": "Nicaragua",
+        "region": "latin_carib"
+    },
+    {
+        "code": "NGA",
+        "name": "Nigeria",
+        "region": "ssafrica"
+    },
+    {
+        "code": "NOR",
+        "name": "Norway",
+        "region": "europe_casia"
+    },
+    {
+        "code": "PAK",
+        "name": "Pakistan",
+        "region": "sasia"
+    },
+    {
+        "code": "PER",
+        "name": "Peru",
+        "region": "latin_carib"
+    },
+    {
+        "code": "PHL",
+        "name": "Philippines",
+        "region": "easia"
+    },
+    {
+        "code": "POL",
+        "name": "Poland",
+        "region": "europe_casia"
+    },
+    {
+        "code": "PRI",
+        "name": "Puerto Rico",
+        "region": "latin_carib"
+    },
+    {
+        "code": "ROU",
+        "name": "Romania",
+        "region": "europe_casia"
     },
     {
         "code": "RUS",
-        "name": "Russian Federation"
+        "name": "Russian Federation",
+        "region": "europe_casia"
+    },
+    {
+        "code": "SRB",
+        "name": "Serbia",
+        "region": "europe_casia"
+    },
+    {
+        "code": "SVK",
+        "name": "Slovakia",
+        "region": "europe_casia"
+    },
+    {
+        "code": "VNM",
+        "name": "Viet Nam",
+        "region": "easia"
+    },
+    {
+        "code": "SVN",
+        "name": "Slovenia",
+        "region": "europe_casia"
     },
     {
         "code": "ZWE",
-        "name": "Zimbabwe"
+        "name": "Zimbabwe",
+        "region": "ssafrica"
+    },
+    {
+        "code": "ESP",
+        "name": "Spain",
+        "region": "europe_casia"
     },
     {
         "code": "SWE",
-        "name": "Sweden"
+        "name": "Sweden",
+        "region": "europe_casia"
     },
     {
         "code": "CHE",
-        "name": "Switzerland"
+        "name": "Switzerland",
+        "region": "europe_casia"
+    },
+    {
+        "code": "TJK",
+        "name": "Tajikistan",
+        "region": "europe_casia"
+    },
+    {
+        "code": "THA",
+        "name": "Thailand",
+        "region": "easia"
+    },
+    {
+        "code": "TUN",
+        "name": "Tunisia",
+        "region": "meast_nafrica"
+    },
+    {
+        "code": "TUR",
+        "name": "Turkey",
+        "region": "europe_casia"
+    },
+    {
+        "code": "MKD",
+        "name": "North Macedonia",
+        "region": "europe_casia"
+    },
+    {
+        "code": "EGY",
+        "name": "Egypt",
+        "region": "meast_nafrica"
     },
     {
         "code": "GBR",
-        "name": "United Kingdom"
+        "name": "United Kingdom",
+        "region": "europe_casia"
     },
     {
         "code": "USA",
-        "name": "United States"
+        "name": "United States",
+        "region": "namerica"
     }
 ]

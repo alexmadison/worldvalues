@@ -20,7 +20,18 @@
 		</svg>
 	</div>
 
-	<div id="checkbox_wrapper"></div>
+	<div id="checkbox_wrapper">
+		<p class = "headers region_ssafrica">Sub-Saharan Africa</p>
+		<p class = "headers region_sasia">South Asia</p>
+		<p class = "headers region_namerica">North America</p>
+		<p class = "headers region_meast_nafrica">Middle East & North Africa</p>
+		<p class = "headers region_latin_carib">Latin America & Caribbean</p>
+		<p class = "headers region_europe_casia">Europe & Central Asia</p>
+		<p class = "headers region_easia">East Asia</p>
+
+
+
+	</div>
 	<button onclick = "hideAllCountries()">Clear all</button>
 	<button onclick = "showAllCountries()">Show all</button>
 
@@ -268,7 +279,9 @@ var generateCheckboxes = function() {
 	.data(country_data)
 	.enter()
 	.append("div")
-	.attr("class",d => "country_checkbox_wrapper " + d.code)
+	.attr("class",d => "country_checkbox_wrapper " + d.code + " region_" + d.region)
+	.attr("title", d => d.name)
+
 	.on("mouseover", function(d) {
 		if (d3.select("input." + d.code).property("checked")) {
 			d3.selectAll("path")
