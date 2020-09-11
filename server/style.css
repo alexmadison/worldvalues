@@ -66,21 +66,23 @@ p {
 
 #tooltip_wrapper {
 	position: absolute;
-	left: 800px;
-	/*right: 0px*/
 	height: auto;
-	font-size : 12pt;
+	font-size : 10pt;
 	font-weight: 500;
-	float: left;
 	margin: 0;
+	pointer-events: none;
 }
 
 #qualities_wrapper {
 	display: inline-block;
 	color: white;
-	width: 300px;
-	/*width: auto;*/
+	width: 5em;
+	width: auto;
 	float: left;
+}
+
+#tooltip_wrapper p {
+	margin: 0 0 0 0;
 }
 
 #inhabitants_wrapper {

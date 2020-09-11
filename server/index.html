@@ -199,10 +199,13 @@ var generateVis = function() {
 
 		var absSort = (x,y) => d3.descending(Math.abs(x.answer), Math.abs(y.answer));
 
+		d3.select("#tooltip_wrapper")
+		.style("visibility", "visible");
+
 		//Make mouseover of cluster answers
 		var data = d3.select("#qualities_wrapper")
 		.selectAll("p")
-		.data(cluster_data[j].answers.sort(absSort));
+		.data(cluster_data[j].answers.sort(absSort).slice(0,20));
 
 		data
 		.enter()
@@ -237,7 +240,22 @@ var generateVis = function() {
 		.exit()
 		.remove();
 
+	})
+
+	//More tooltip shit
+	.on("mouseleave", function() {
+		d3.select("#tooltip_wrapper")
+		.style("visibility", "hidden");
 	});
+
+	//Tooltip shit
+	d3.select("body")
+	.on("mousemove", function() { 
+		d3.select("#tooltip_wrapper")
+		.style("top", d => (d3.mouse(this)[1] + 20) + "px")
+		.style("left", d => (d3.mouse(this)[0] + 20) + "px")
+
+	})
 
 
 
