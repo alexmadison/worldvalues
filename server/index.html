@@ -271,6 +271,20 @@ var generateContours = function() {
 
 }
 
+var silly_aux_variable = true;
+var alternate_columns = function(region) {
+	if (region == "europe_casia") {
+		silly_aux_variable = ! silly_aux_variable
+		if(silly_aux_variable) {
+			return " col1"
+		} else {
+			return " col2"
+		}
+	} else {
+		return ""
+	}
+}
+
 var generateCheckboxes = function() {
 
 	//Set up divs and mouseover transparency
@@ -279,7 +293,7 @@ var generateCheckboxes = function() {
 	.data(country_data)
 	.enter()
 	.append("div")
-	.attr("class",d => "country_checkbox_wrapper " + d.code + " region_" + d.region)
+	.attr("class",d => "country_checkbox_wrapper " + d.code + " region_" + d.region + alternate_columns(d.region))
 	.attr("title", d => d.name)
 
 	.on("mouseover", function(d) {
